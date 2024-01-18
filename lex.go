@@ -1,7 +1,7 @@
 package preroll
 
 import (
-	"fmt"
+	// "fmt"
 	"strings"
 	"sync"
 	"unicode/utf8"
@@ -75,7 +75,7 @@ func (l *Lexer) next() rune {
 }
 
 func (l *Lexer) run() {
-	for state := lexDice; state != nil; {
+	for state := lexDiceQuantity; state != nil; {
 		state = state(l)
 	}
 	/* original concurrent implementation
