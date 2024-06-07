@@ -3,6 +3,8 @@ package preroll_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/therealfakemoot/preroll"
 )
 
@@ -48,7 +50,9 @@ func Test_BasicDice(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			t.Fail()
+			l := preroll.Lex(tc.name, tc.input)
+
+			assert.Equal(t, tc.expected, l.Items)
 		})
 	}
 

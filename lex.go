@@ -28,6 +28,20 @@ const (
 	EOF rune = 0
 )
 
+func Lex(name, input string) *Lexer {
+
+	l := &Lexer{
+		name:  name,
+		input: input,
+		state: lexDiceQuantity,
+		Items: make([]Lexeme, 0),
+	}
+	// go l.run()
+	l.run()
+
+	return l
+}
+
 type Lexer struct {
 	// logger
 	name, input                      string

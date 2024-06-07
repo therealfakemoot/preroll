@@ -20,8 +20,9 @@ func lexDie(l *Lexer) stateFn {
 	if r == 'd' {
 		l.emit(Lexeme{
 			Type: DieToken,
-			Val:  l.input[l.GetStart() : l.GetPos()+1],
+			Val:  l.input[l.GetStart():l.GetPos()],
 		})
 	}
+
 	return nil
 }
