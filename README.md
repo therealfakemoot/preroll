@@ -1,17 +1,24 @@
 ## Grammar
-The following [EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) specification defines valid inputs.
+The following [EBNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) specification defines valid inputs. You can view the railroad diagram [here](docs/dice_roll_ebnf_railroad_solid_bg.png).
 
 ```
-roll = [keep highest, keep lowest, drop highest, drop lowest, explode], whole number, die, faces, [[ addition | subtraction ], roll];
+roll = [[[keep_highest | keep_lowest] | [drop_highest | drop_lowest]] | [explode]], whole_number, die, faces, [ addition | subtraction ], [roll];
+die = "d";
+faces = ("{", {{letter | digit}, ","}, "}") | natural_number;
 
-keep highest = "kh", roll;
-keep lowest = "kl", roll;
-drop highest = "dh", roll;
-drop lowest = "dl", roll;
-explode = "!", "{", whole number, "}", roll;
+keep_highest = "kh", roll;
+keep_lowest = "kl", roll;
+drop_highest = "dh", roll;
+drop_lowest = "dl", roll;
+explode = "!", "{", whole_number, "}", roll;
 
-digit excluding zero = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
-digit                = "0" | digit excluding zero ;
-natural number = digit excluding zero, { digit } ;
-whole number  = "0" | natural number ;
+digit_excluding_zero = "1" | "..." | "9" ;
+digit = "0" | digit_excluding_zero ;
+natural_number = digit_excluding_zero, { digit } ;
+whole_number = "0" | natural_number ;
+
+letter =  lowercase_letter | uppercase_letter;
+lowercase_letter =  "a" | "b" | "..." | "z";
+uppercase_letter =  "A" | "B" | "..." | "Z";
+string = { lowercase_letter | uppercase_letter | digit };
 ```
