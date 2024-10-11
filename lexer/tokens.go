@@ -1,8 +1,8 @@
 package lexer
 
+//go:generate stringer -type=TokenKind
 type TokenKind int
 
-//go:generate stringer -type=Token
 type Token struct {
 	Kind  TokenKind
 	Value string
