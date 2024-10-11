@@ -1,0 +1,19 @@
+roll = [[[keep_highest | keep_lowest] | [drop_highest | drop_lowest]] | [explode]], whole_number, die, faces, [ (addition | subtraction), (roll | whole_number) ];
+die = "d";
+faces = ("{", {{letter | digit}, ","}, "}") | natural_number;
+
+keep_highest = "kh", roll;
+keep_lowest = "kl", roll;
+drop_highest = "dh", roll;
+drop_lowest = "dl", roll;
+explode = "!", "{", whole_number, "}", roll;
+
+digit_excluding_zero = "1" | "..." | "9" ;
+digit = "0" | digit_excluding_zero ;
+natural_number = digit_excluding_zero, { digit } ;
+whole_number = "0" | natural_number ;
+
+letter =  lowercase_letter | uppercase_letter;
+lowercase_letter =  "a" | "b" | "..." | "z";
+uppercase_letter =  "A" | "B" | "..." | "Z";
+string = { lowercase_letter | uppercase_letter | digit };
