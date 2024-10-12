@@ -9,3 +9,4 @@ Here are some valid roll inputs:
 - `5d{red,blue,green}`
 - `2d{1,3,17}`
 - `kh2d20 + 3`
+- `dl3d13 - 4`
