@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log/slog"
 	"os"
 
@@ -8,12 +9,17 @@ import (
 )
 
 func main() {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
-	tokens, err := lexer.Lex(`1d20`, logger)
-	if err != nil {
-		logger.With("error", err).Error("error during lexing")
-		os.Exit(1)
-	}
+	var input string
 
-	logger.With("lexed tokens", tokens).Info("tokenization results")
+	flag.StringVar(&input, "roll", "1d20+3", "dice roll")
+	flag.Parse()
+
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+
+	_, tokens := lexer.Lex(input, logger.WithGroup("lexer"))
+	logger = logger.WithGroup("main").With("input", input)
+	logger.Info("lexing input")
+	for t := range tokens {
+		logger.With("token", t).Debug("found token")
+	}
 }
