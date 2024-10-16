@@ -113,3 +113,70 @@ func Test_Keeping(t *testing.T) {
 		})
 	}
 }
+
+func Test_NumberAddition(t *testing.T) {
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "1d20+4", expected: []Token{
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{additionToken, "+"},
+				{numberToken, "4"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
+
+func Test_Faces(t *testing.T) {
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "1d{red,blue,green}", expected: []Token{
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{facesOpenToken, "{"},
+				{faceToken, "red"},
+				{faceToken, "blue"},
+				{faceToken, "green"},
+				{facesCloseToken, "}"},
+			},
+		},
+		{
+			input: "1d{2,7,194}", expected: []Token{
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{facesOpenToken, "{"},
+				{faceToken, "2"},
+				{faceToken, "7"},
+				{faceToken, "194"},
+				{facesCloseToken, "}"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
