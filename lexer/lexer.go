@@ -1,6 +1,7 @@
 package lexer
 
 import (
+	"fmt"
 	"log/slog"
 	"strings"
 	"unicode/utf8"
@@ -69,6 +70,13 @@ func (l *lexer) acceptRun(valid string) {
 	l.backup()
 }
 
+// acceptFn consumes a run of runes from the valid set.
+func (l *lexer) acceptFn(matchers ...func(rune) bool) {
+	// for strings.IndexRune(valid, l.next()) >= 0 {
+	// }
+	l.backup()
+}
+
 func (l *lexer) emit(t tokenType) {
 	logger := l.logger.WithGroup("emit")
 	token := Token{t, l.input[l.start:l.pos]}
@@ -82,4 +90,11 @@ func (l *lexer) run() {
 		state = state(l)
 	}
 	close(l.tokens)
+}
+
+func (l *lexer) errorf(format string, args ...any) {
+	l.tokens <- Token{
+		Type: errorToken,
+		Raw:  fmt.Sprintf(format, args...),
+	}
 }

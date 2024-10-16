@@ -34,6 +34,7 @@ const (
 	subtractionToken
 	facesOpenToken
 	facesCloseToken
+	faceToken
 )
 
 type Token struct {
