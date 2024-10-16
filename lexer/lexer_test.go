@@ -207,3 +207,41 @@ func Test_Faces(t *testing.T) {
 		})
 	}
 }
+
+func Test_Complex(t *testing.T) {
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "dh3d20-4", expected: []Token{
+				{dropHighestToken, "dh"},
+				{numberToken, "3"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{subtractionToken, "-"},
+				{numberToken, "4"},
+			},
+		},
+		{
+			input: "kl2d69+4", expected: []Token{
+				{keepLowestToken, "kl"},
+				{numberToken, "2"},
+				{dieToken, "d"},
+				{numberToken, "69"},
+				{additionToken, "+"},
+				{numberToken, "4"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
