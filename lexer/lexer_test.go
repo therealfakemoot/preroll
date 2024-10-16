@@ -114,6 +114,33 @@ func Test_Keeping(t *testing.T) {
 	}
 }
 
+func Test_NumberSubtraction(t *testing.T) {
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "1d20-4", expected: []Token{
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{subtractionToken, "-"},
+				{numberToken, "4"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
+
 func Test_NumberAddition(t *testing.T) {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
 	cases := []struct {
