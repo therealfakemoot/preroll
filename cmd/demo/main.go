@@ -19,7 +19,7 @@ func main() {
 	l := lexer.Lex(input, logger.WithGroup("lexer"))
 	logger = logger.WithGroup("main").With("input", input)
 	logger.Info("lexing input")
-	for t := range l.Items() {
-		logger.With("token", t).Debug("found token")
+	for _, t := range l.Items() {
+		logger.With("token", t).Info("found token")
 	}
 }
