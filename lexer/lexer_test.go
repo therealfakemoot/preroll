@@ -245,3 +245,33 @@ func Test_Complex(t *testing.T) {
 		})
 	}
 }
+
+func Test_RollAddition(t *testing.T) {
+	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "dh3d20+1d4", expected: []Token{
+				{dropHighestToken, "dh"},
+				{numberToken, "3"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{additionToken, "+"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "4"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
