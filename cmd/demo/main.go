@@ -16,10 +16,10 @@ func main() {
 
 	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
 
-	_, tokens := lexer.Lex(input, logger.WithGroup("lexer"))
+	l := lexer.Lex(input, logger.WithGroup("lexer"))
 	logger = logger.WithGroup("main").With("input", input)
 	logger.Info("lexing input")
-	for t := range tokens {
+	for t := range l.Items() {
 		logger.With("token", t).Debug("found token")
 	}
 }

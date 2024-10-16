@@ -12,22 +12,22 @@ type lexer struct {
 	start  int
 	pos    int
 	width  int
-	tokens chan Token
+	tokens []Token
 	states []stateFunc
 	logger *slog.Logger
 }
 
-func Lex(input string, logger *slog.Logger) (*lexer, chan Token) {
+func Lex(input string, logger *slog.Logger) *lexer {
 	l := &lexer{
 		input:  input,
 		pos:    0,
-		tokens: make(chan Token),
+		tokens: make([]Token, 0),
 		states: make([]stateFunc, 0),
 		logger: logger,
 	}
 
-	go l.run()
-	return l, l.tokens
+	l.run()
+	return l
 }
 
 // next returns the next rune in the input.
@@ -78,10 +78,8 @@ func (l *lexer) acceptFn(matchers ...func(rune) bool) {
 }
 
 func (l *lexer) emit(t tokenType) {
-	logger := l.logger.WithGroup("emit")
 	token := Token{t, l.input[l.start:l.pos]}
-	logger.With("token", token).Info("found token")
-	l.tokens <- token
+	l.tokens = append(l.tokens, token)
 	l.start = l.pos
 }
 
@@ -89,12 +87,16 @@ func (l *lexer) run() {
 	for state := startState; state != nil; {
 		state = state(l)
 	}
-	close(l.tokens)
+}
+
+func (l *lexer) Items() []Token {
+	return l.tokens
 }
 
 func (l *lexer) errorf(format string, args ...any) {
-	l.tokens <- Token{
+	l.tokens = append(l.tokens, Token{
 		Type: errorToken,
 		Raw:  fmt.Sprintf(format, args...),
-	}
+	},
+	)
 }
