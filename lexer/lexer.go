@@ -93,10 +93,11 @@ func (l *lexer) Items() []Token {
 	return l.tokens
 }
 
-func (l *lexer) errorf(format string, args ...any) {
+func (l *lexer) errorf(format string, args ...any) stateFunc {
 	l.tokens = append(l.tokens, Token{
 		Type: errorToken,
 		Raw:  fmt.Sprintf(format, args...),
 	},
 	)
+	return nil
 }
