@@ -1,16 +1,15 @@
-roll = [[[keep_highest | keep_lowest] | [drop_highest | drop_lowest]] | [explode]], whole_number, die, faces, [ (addition | subtraction), (roll | whole_number) ];
+roll = [[[keep_highest | keep_lowest] | [drop_highest | drop_lowest]] | [explode]], positive_integer, die, faces, [ (addition | subtraction), (roll | positive_integer) ];
 die = "d";
-faces = "{", ({(string | natural_number), ","} ), (string | natural_number),"}";
+faces = "{", ({(string | positive_integer), ","} ), (string | positive_integer),"}";
 
-keep_highest = "kh", roll;
-keep_lowest = "kl", roll;
-drop_highest = "dh", roll;
-drop_lowest = "dl", roll;
-explode = "!", "{", whole_number, "}", roll;
+keep_highest = "kh";
+keep_lowest = "kl";
+drop_highest = "dh";
+drop_lowest = "dl";
+explode = "!", "{", positive_integer, "}";
 
-whole_number = "0" | natural_number ;
-natural_number = digit_excluding_zero, { digit } ;
-digit_excluding_zero = "1" | "..." | "9" ;
+positive_integer = non_zero_digit, {digit};
+non_zero_digit = "1" | "..." | "9" ;
 digit = "0" | digit_excluding_zero ;
 
 string = { lowercase_letter | uppercase_letter | digit };
