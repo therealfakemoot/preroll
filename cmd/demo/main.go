@@ -26,7 +26,7 @@ func main() {
 		logLevel = slog.LevelInfo
 	}
 
-	logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{Level: logLevel}))
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: logLevel}))
 
 	l := lexer.Lex(input, logger.WithGroup("lexer"))
 	logger = logger.WithGroup("main").With("input", input)

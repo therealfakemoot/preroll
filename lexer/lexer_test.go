@@ -7,8 +7,17 @@ import (
 	"testing"
 )
 
+var logger = slog.New(
+	slog.NewTextHandler(
+		os.Stdout,
+		&slog.HandlerOptions{
+			Level: slog.LevelDebug,
+		},
+	),
+)
+
 func Test_Simple(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_Simple")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -47,7 +56,7 @@ func Test_Simple(t *testing.T) {
 }
 
 func Test_Dropping(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_Dropping")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -81,7 +90,7 @@ func Test_Dropping(t *testing.T) {
 }
 
 func Test_Keeping(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_Keeping")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -115,7 +124,7 @@ func Test_Keeping(t *testing.T) {
 }
 
 func Test_NumberSubtraction(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_NumberSubtraction")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -142,7 +151,7 @@ func Test_NumberSubtraction(t *testing.T) {
 }
 
 func Test_NumberAddition(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_NumberAddition")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -169,7 +178,7 @@ func Test_NumberAddition(t *testing.T) {
 }
 
 func Test_Faces(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_Faces")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -209,7 +218,7 @@ func Test_Faces(t *testing.T) {
 }
 
 func Test_Complex(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_Complex")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -247,7 +256,7 @@ func Test_Complex(t *testing.T) {
 }
 
 func Test_RollAddition(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_RollAddition")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -276,7 +285,7 @@ func Test_RollAddition(t *testing.T) {
 }
 
 func Test_RollSubtraction(t *testing.T) {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := logger.WithGroup("Test_RollSubtraction")
 	cases := []struct {
 		input    string
 		expected []Token

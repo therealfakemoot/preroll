@@ -14,6 +14,98 @@ func isASCIIAlpha(r rune) bool {
 
 type stateFunc func(*lexer) stateFunc
 
+func lexModifier(l *lexer) stateFunc {
+	logger := l.logger.WithGroup("lexModifier")
+	logger.Debug("entering lexModifier")
+	switch {
+	case strings.HasPrefix(l.input[l.pos:], keepHighest):
+		l.pos += len(keepHighest)
+		l.emit(keepHighestToken)
+		return lexDieCount
+	case strings.HasPrefix(l.input[l.pos:], keepLowest):
+		l.pos += len(keepLowest)
+		l.emit(keepLowestToken)
+		return lexDieCount
+	case strings.HasPrefix(l.input[l.pos:], dropHighest):
+		l.pos += len(dropHighest)
+		l.emit(dropHighestToken)
+		return lexDieCount
+	case strings.HasPrefix(l.input[l.pos:], dropLowest):
+		l.pos += len(dropLowest)
+		l.emit(dropLowestToken)
+		return lexDieCount
+	case strings.HasPrefix(l.input[l.pos:], explode):
+		l.pos += len(explode)
+		l.emit(explodeToken)
+		return lexDieCount
+	default:
+		logger.Debug("no modifier found")
+		return lexDieCount
+	}
+}
+
+func lexDieCount(l *lexer) stateFunc {
+	logger := l.logger.WithGroup("lexDieCount")
+	logger.With("lexer", l).Debug("entering lexDieCount")
+	if l.accept(NON_ZERO_DIGITS) {
+		l.acceptRun(DIGITS)
+		l.emit(numberToken)
+	}
+	return lexDie
+}
+
+func lexDie(l *lexer) stateFunc {
+	if strings.HasPrefix(l.input[l.pos:], die) {
+		l.pos += len(die)
+		l.emit(dieToken)
+		return lexFaces
+	}
+	return nil
+}
+
+func lexFaces(l *lexer) stateFunc {
+	switch {
+	case strings.HasPrefix(l.input[l.pos:], facesOpen):
+		l.pos += len(facesOpen)
+		l.emit(facesCloseToken)
+		for {
+			l.acceptRun(DIGITS + ASCII_ALPHA)
+			l.emit(faceToken)
+			switch {
+			case l.peek() == ',':
+				l.next()
+				l.emit(facesSeparatorToken)
+			case l.peek() == '}':
+				l.next()
+				l.emit(facesCloseToken)
+				return lexAddSubtract
+			}
+		}
+	case l.accept(NON_ZERO_DIGITS):
+		l.acceptRun(DIGITS)
+		l.emit(numberToken)
+		return lexAddSubtract
+	}
+	return nil
+}
+
+func lexAddSubtract(l *lexer) stateFunc {
+	switch {
+	case strings.HasPrefix(l.input[l.pos:], addition):
+		l.pos += len(addition)
+		l.emit(additionToken)
+	case strings.HasPrefix(l.input[l.pos:], subtraction):
+		l.pos += len(subtraction)
+		l.emit(subtractionToken)
+	}
+	switch {
+	case l.accept(NON_ZERO_DIGITS):
+		l.acceptRun(DIGITS)
+		l.emit(numberToken)
+	}
+	return nil
+}
+
 func startState(l *lexer) stateFunc {
 	for {
 		switch {
@@ -55,7 +147,7 @@ func startState(l *lexer) stateFunc {
 			l.pos += len(facesOpen)
 			l.emit(facesOpenToken)
 			// return lexFaces
-			return lexDie
+			return lexDieXXX
 		}
 
 		if l.next() == EOF {
@@ -65,18 +157,16 @@ func startState(l *lexer) stateFunc {
 	return nil
 }
 
-func lexDie(l *lexer) stateFunc {
-	logger := l.logger.WithGroup("lexDie")
-	logger.With("input", l.input[l.pos:]).Info("checking for faces")
+func lexDieXXX(l *lexer) stateFunc {
 	if strings.HasPrefix(l.input[l.pos:], facesOpen) {
 		l.pos += len(facesOpen)
 		l.emit(facesOpenToken)
-		return lexFaces
+		return lexFacesXXX
 	}
 	return lexNumber
 }
 
-func lexFaces(l *lexer) stateFunc {
+func lexFacesXXX(l *lexer) stateFunc {
 	// TODO: figure out how to lex comma separated strings
 	for {
 		switch l.next() {
@@ -93,8 +183,7 @@ func lexFaces(l *lexer) stateFunc {
 }
 
 func lexNumber(l *lexer) stateFunc {
-	digits := "0123456789"
-	l.acceptRun(digits)
+	l.acceptRun(DIGITS)
 	l.emit(numberToken)
 
 	return startState

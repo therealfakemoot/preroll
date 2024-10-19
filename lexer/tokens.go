@@ -4,20 +4,24 @@ package lexer
 type tokenType int
 
 const (
-	EOF = '\u0000'
+	EOF             = '\u0000'
+	DIGITS          = "0123456789"
+	NON_ZERO_DIGITS = "0123456789"
+	ASCII_ALPHA     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
 const (
-	keepHighest = "kh"
-	keepLowest  = "kl"
-	dropHighest = "dh"
-	dropLowest  = "dl"
-	explode     = "!"
-	die         = "d"
-	facesOpen   = "{"
-	facesClose  = "}"
-	addition    = "+"
-	subtraction = "-"
+	keepHighest    = "kh"
+	keepLowest     = "kl"
+	dropHighest    = "dh"
+	dropLowest     = "dl"
+	explode        = "!"
+	die            = "d"
+	facesOpen      = "{"
+	facesClose     = "}"
+	addition       = "+"
+	subtraction    = "-"
+	facesSeparator = ","
 )
 
 const (
@@ -34,6 +38,7 @@ const (
 	subtractionToken
 	facesOpenToken
 	facesCloseToken
+	facesSeparatorToken
 	faceToken
 )
 

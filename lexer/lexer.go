@@ -88,9 +88,12 @@ func (l *lexer) emit(t tokenType) {
 }
 
 func (l *lexer) run() {
+	logger := l.logger.WithGroup("run")
+	logger.Debug("entering run")
 	for state := lexModifier; state != nil; {
 		state = state(l)
 	}
+	logger.Debug("received nil stateFunc")
 }
 
 func (l *lexer) Items() []Token {

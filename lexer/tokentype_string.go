@@ -21,12 +21,13 @@ func _() {
 	_ = x[subtractionToken-10]
 	_ = x[facesOpenToken-11]
 	_ = x[facesCloseToken-12]
-	_ = x[faceToken-13]
+	_ = x[facesSeparatorToken-13]
+	_ = x[faceToken-14]
 }
 
-const _tokenType_name = "errorTokeneofTokenkeepHighestTokenkeepLowestTokendropHighestTokendropLowestTokenexplodeTokendieTokennumberTokenadditionTokensubtractionTokenfacesOpenTokenfacesCloseTokenfaceToken"
+const _tokenType_name = "errorTokeneofTokenkeepHighestTokenkeepLowestTokendropHighestTokendropLowestTokenexplodeTokendieTokennumberTokenadditionTokensubtractionTokenfacesOpenTokenfacesCloseTokenfacesSeparatorTokenfaceToken"
 
-var _tokenType_index = [...]uint8{0, 10, 18, 34, 49, 65, 80, 92, 100, 111, 124, 140, 154, 169, 178}
+var _tokenType_index = [...]uint8{0, 10, 18, 34, 49, 65, 80, 92, 100, 111, 124, 140, 154, 169, 188, 197}
 
 func (i tokenType) String() string {
 	if i < 0 || i >= tokenType(len(_tokenType_index)-1) {
