@@ -9,12 +9,24 @@ import (
 )
 
 func main() {
-	var input string
+	var (
+		input    string
+		level    string
+		logLevel slog.Level
+	)
 
 	flag.StringVar(&input, "roll", "1d20+3", "dice roll")
+	flag.StringVar(&level, "level", "INFO", "logging level: debug|DEBUG, info|INFO")
 	flag.Parse()
 
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	switch {
+	case level == "debug" || level == "DEBUG":
+		logLevel = slog.LevelDebug
+	case level == "info" || level == "INFO":
+		logLevel = slog.LevelInfo
+	}
+
+	logger := slog.New(slog.NewTextHandler(os.Stderr, &slog.HandlerOptions{Level: logLevel}))
 
 	l := lexer.Lex(input, logger.WithGroup("lexer"))
 	logger = logger.WithGroup("main").With("input", input)
