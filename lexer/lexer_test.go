@@ -17,7 +17,7 @@ var logger = slog.New(
 )
 
 func Test_Simple(t *testing.T) {
-	logger := logger.WithGroup("Test_Simple")
+	logger := logger.With("test", "Test_Simple")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -47,7 +47,7 @@ func Test_Simple(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -57,7 +57,7 @@ func Test_Simple(t *testing.T) {
 }
 
 func Test_Dropping(t *testing.T) {
-	logger := logger.WithGroup("Test_Dropping")
+	logger := logger.With("test", "Test_Dropping")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -82,7 +82,7 @@ func Test_Dropping(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -92,7 +92,7 @@ func Test_Dropping(t *testing.T) {
 }
 
 func Test_Keeping(t *testing.T) {
-	logger := logger.WithGroup("Test_Keeping")
+	logger := logger.With("test", "Test_Keeping")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -117,7 +117,7 @@ func Test_Keeping(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -127,7 +127,7 @@ func Test_Keeping(t *testing.T) {
 }
 
 func Test_NumberSubtraction(t *testing.T) {
-	logger := logger.WithGroup("Test_NumberSubtraction")
+	logger := logger.With("test", "Test_NumberSubtraction")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -145,7 +145,7 @@ func Test_NumberSubtraction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -155,7 +155,7 @@ func Test_NumberSubtraction(t *testing.T) {
 }
 
 func Test_NumberAddition(t *testing.T) {
-	logger := logger.WithGroup("Test_NumberAddition")
+	logger := logger.With("test", "Test_NumberAddition")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -173,7 +173,7 @@ func Test_NumberAddition(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -183,7 +183,7 @@ func Test_NumberAddition(t *testing.T) {
 }
 
 func Test_Faces(t *testing.T) {
-	logger := logger.WithGroup("Test_Faces")
+	logger := logger.With("test", "Test_Faces")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -214,7 +214,7 @@ func Test_Faces(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -224,7 +224,7 @@ func Test_Faces(t *testing.T) {
 }
 
 func Test_Complex(t *testing.T) {
-	logger := logger.WithGroup("Test_Complex")
+	logger := logger.With("test", "Test_Complex")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -253,7 +253,7 @@ func Test_Complex(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -263,7 +263,7 @@ func Test_Complex(t *testing.T) {
 }
 
 func Test_RollAddition(t *testing.T) {
-	logger := logger.WithGroup("Test_RollAddition")
+	logger := logger.With("test", "Test_RollAddition")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -283,7 +283,7 @@ func Test_RollAddition(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -293,7 +293,7 @@ func Test_RollAddition(t *testing.T) {
 }
 
 func Test_RollSubtraction(t *testing.T) {
-	logger := logger.WithGroup("Test_RollSubtraction")
+	logger := logger.With("test", "Test_RollSubtraction")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -313,7 +313,7 @@ func Test_RollSubtraction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
-			logger := logger.WithGroup(tc.input)
+			logger := logger.With("case", tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
