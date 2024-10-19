@@ -103,7 +103,10 @@ func lexAddSubtract(l *lexer) stateFunc {
 		l.acceptRun(DIGITS)
 		l.emit(numberToken)
 	}
-	return nil
+	if l.peek() == EOF {
+		return nil
+	}
+	return lexModifier
 }
 
 func startState(l *lexer) stateFunc {

@@ -267,7 +267,7 @@ func Test_Complex(t *testing.T) {
 }
 
 func Test_RollAdditionSimple(t *testing.T) {
-	logger := logger.With("test", "Test_RollAddition")
+	logger := logger.With("test", "Test_RollAdditionSimple")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -295,7 +295,7 @@ func Test_RollAdditionSimple(t *testing.T) {
 }
 
 func Test_RollSubtractionSimple(t *testing.T) {
-	logger := logger.With("test", "Test_RollAddition")
+	logger := logger.With("test", "Test_RollAdditionSimple")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -323,7 +323,7 @@ func Test_RollSubtractionSimple(t *testing.T) {
 }
 
 func Test_RollAdditionComplex(t *testing.T) {
-	logger := logger.With("test", "Test_RollAddition")
+	logger := logger.With("test", "Test_RollAdditionComplex")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -353,7 +353,7 @@ func Test_RollAdditionComplex(t *testing.T) {
 }
 
 func Test_RollSubtractionComplex(t *testing.T) {
-	logger := logger.With("test", "Test_RollSubtraction")
+	logger := logger.With("test", "Test_RollSubtractionComplex")
 	cases := []struct {
 		input    string
 		expected []Token
@@ -367,6 +367,55 @@ func Test_RollSubtractionComplex(t *testing.T) {
 				{numberToken, "1"},
 				{dieToken, "d"},
 				{numberToken, "4"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.With("case", tc.input)
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
+
+func Test_RollComplexRolls(t *testing.T) {
+	logger := logger.With("test", "Test_RollSubtractionComplex")
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "3d20-1d4+1d5", expected: []Token{
+				{numberToken, "3"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{subtractionToken, "-"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "4"},
+				{additionToken, "+"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "5"},
+			},
+		},
+		{
+			input: "3d20+1d4-1d5", expected: []Token{
+				{numberToken, "3"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{additionToken, "+"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "4"},
+				{subtractionToken, "-"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "5"},
 			},
 		},
 	}
