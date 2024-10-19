@@ -47,6 +47,7 @@ func Test_Simple(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -81,6 +82,7 @@ func Test_Dropping(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -115,6 +117,7 @@ func Test_Keeping(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -142,6 +145,7 @@ func Test_NumberSubtraction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -169,6 +173,7 @@ func Test_NumberAddition(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -209,6 +214,7 @@ func Test_Faces(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -247,6 +253,7 @@ func Test_Complex(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -276,6 +283,7 @@ func Test_RollAddition(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
@@ -305,6 +313,7 @@ func Test_RollSubtraction(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.WithGroup(tc.input)
 			actual := Lex(tc.input, logger).Items()
 			if !reflect.DeepEqual(actual, tc.expected) {
 				t.Fail()
