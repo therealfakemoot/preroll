@@ -17,6 +17,10 @@ type lexer struct {
 	logger *slog.Logger
 }
 
+func (l *lexer) String() string {
+	return fmt.Sprintf("{input:'%s' start:%d pos:%d width:%d}", l.input, l.start, l.pos, l.width)
+}
+
 func Lex(input string, logger *slog.Logger) *lexer {
 	l := &lexer{
 		input:  input,
@@ -84,7 +88,7 @@ func (l *lexer) emit(t tokenType) {
 }
 
 func (l *lexer) run() {
-	for state := startState; state != nil; {
+	for state := lexModifier; state != nil; {
 		state = state(l)
 	}
 }
