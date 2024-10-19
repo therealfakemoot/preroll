@@ -430,3 +430,42 @@ func Test_RollComplexRolls(t *testing.T) {
 		})
 	}
 }
+
+func Test_Explode(t *testing.T) {
+	logger := logger.With("test", "Test_Simple")
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "!1d20", expected: []Token{
+				{explodeToken, "!"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+			},
+		},
+		{
+			input: "!{3}1d20", expected: []Token{
+				{explodeToken, "!"},
+				{explodeOpenToken, "{"},
+				{explodeCountToken, "3"},
+				{explodeCloseToken, "}"},
+				{numberToken, "1"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.With("case", tc.input)
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Logf("%v\n", actual)
+				t.Fail()
+			}
+		})
+	}
+}

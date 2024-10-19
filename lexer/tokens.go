@@ -19,6 +19,8 @@ const (
 	die            = "d"
 	facesOpen      = "{"
 	facesClose     = "}"
+	explodeOpen    = "{"
+	explodeClose   = "}"
 	addition       = "+"
 	subtraction    = "-"
 	facesSeparator = ","
@@ -40,6 +42,9 @@ const (
 	facesCloseToken
 	facesSeparatorToken
 	faceToken
+	explodeOpenToken
+	explodeCloseToken
+	explodeCountToken
 )
 
 type Token struct {
