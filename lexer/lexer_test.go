@@ -11,7 +11,7 @@ var logger = slog.New(
 	slog.NewTextHandler(
 		os.Stdout,
 		&slog.HandlerOptions{
-			Level: slog.LevelDebug,
+			Level: slog.LevelInfo,
 		},
 	),
 )
@@ -194,7 +194,9 @@ func Test_Faces(t *testing.T) {
 				{dieToken, "d"},
 				{facesOpenToken, "{"},
 				{faceToken, "red"},
+				{facesSeparatorToken, ","},
 				{faceToken, "blue"},
+				{facesSeparatorToken, ","},
 				{faceToken, "green"},
 				{facesCloseToken, "}"},
 			},
@@ -205,7 +207,9 @@ func Test_Faces(t *testing.T) {
 				{dieToken, "d"},
 				{facesOpenToken, "{"},
 				{faceToken, "2"},
+				{facesSeparatorToken, ","},
 				{faceToken, "7"},
+				{facesSeparatorToken, ","},
 				{faceToken, "194"},
 				{facesCloseToken, "}"},
 			},
@@ -262,7 +266,63 @@ func Test_Complex(t *testing.T) {
 	}
 }
 
-func Test_RollAddition(t *testing.T) {
+func Test_RollAdditionSimple(t *testing.T) {
+	logger := logger.With("test", "Test_RollAddition")
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "3d20+1", expected: []Token{
+				{numberToken, "3"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{additionToken, "+"},
+				{numberToken, "1"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.With("case", tc.input)
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
+
+func Test_RollSubtractionSimple(t *testing.T) {
+	logger := logger.With("test", "Test_RollAddition")
+	cases := []struct {
+		input    string
+		expected []Token
+	}{
+		{
+			input: "3d20-1", expected: []Token{
+				{numberToken, "3"},
+				{dieToken, "d"},
+				{numberToken, "20"},
+				{subtractionToken, "-"},
+				{numberToken, "1"},
+			},
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.input, func(t *testing.T) {
+			logger := logger.With("case", tc.input)
+			actual := Lex(tc.input, logger).Items()
+			if !reflect.DeepEqual(actual, tc.expected) {
+				t.Fail()
+			}
+		})
+	}
+}
+
+func Test_RollAdditionComplex(t *testing.T) {
 	logger := logger.With("test", "Test_RollAddition")
 	cases := []struct {
 		input    string
@@ -292,7 +352,7 @@ func Test_RollAddition(t *testing.T) {
 	}
 }
 
-func Test_RollSubtraction(t *testing.T) {
+func Test_RollSubtractionComplex(t *testing.T) {
 	logger := logger.With("test", "Test_RollSubtraction")
 	cases := []struct {
 		input    string

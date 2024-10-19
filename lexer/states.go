@@ -67,7 +67,7 @@ func lexFaces(l *lexer) stateFunc {
 	switch {
 	case strings.HasPrefix(l.input[l.pos:], facesOpen):
 		l.pos += len(facesOpen)
-		l.emit(facesCloseToken)
+		l.emit(facesOpenToken)
 		for {
 			l.acceptRun(DIGITS + ASCII_ALPHA)
 			l.emit(faceToken)
