@@ -93,7 +93,7 @@ func (l *lexer) run() {
 	for state := lexModifier; state != nil; {
 		state = state(l)
 	}
-	logger.Debug("received nil stateFunc")
+	logger.Debug("terminating lexer")
 }
 
 func (l *lexer) Items() []Token {
